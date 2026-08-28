@@ -7,6 +7,7 @@ import XCTest
 
 @available(macOS 10.15, *)
 final class GridItemBoundsHostingTests: XCTestCase {
+    private static var retainedWindows: [NSWindow] = []
     private let itemSize = CGSize(width: 100, height: 40)
 
     func testHostedBoundsFollowUUIDIdentityThroughReorderAndRemoval() throws {
@@ -27,7 +28,7 @@ final class GridItemBoundsHostingTests: XCTestCase {
         )
         window.contentView = hostingView
         window.orderFrontRegardless()
-        defer { window.close() }
+        Self.retainedWindows.append(window)
 
         let initial = try waitForStablePreferences(
             recorder: recorder,
@@ -93,7 +94,7 @@ final class GridItemBoundsHostingTests: XCTestCase {
         )
         window.contentView = hostingView
         window.orderFrontRegardless()
-        defer { window.close() }
+        Self.retainedWindows.append(window)
 
         wait(for: [emittedExpectation], timeout: 5)
         XCTAssertEqual(recorder.ids, expectedIDs)
