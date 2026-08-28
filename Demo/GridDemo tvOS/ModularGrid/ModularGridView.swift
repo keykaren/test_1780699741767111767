@@ -17,19 +17,28 @@ struct ModularGridView: View {
             }
         }
         .overlayPreferenceValue(GridItemBoundsByIDPreferencesKey.self) { preferences in
-            if let selection = self.selection, let bounds = preferences[id: selection] {
-                RoundedRectangle(cornerRadius: 16)
-                    .strokeBorder(lineWidth: 4)
-                    .foregroundColor(.white)
-                    .frame(width: bounds.width, height: bounds.height)
-                    .position(x: bounds.midX, y: bounds.midY)
-                    .animation(.linear)
-            }
+            self.selectionOverlay(for: preferences)
         }
         .gridStyle(
             ModularGridStyle(columns: .min(300), rows: .fixed(100))
         )
         .navigationBarTitle("Modular Grid")
+    }
+
+    private func selectionOverlay(for preferences: GridItemBoundsPreferences) -> AnyView {
+        guard let selection = self.selection,
+              let bounds = preferences[id: selection] else {
+            return AnyView(EmptyView())
+        }
+
+        return AnyView(
+            RoundedRectangle(cornerRadius: 16)
+                .strokeBorder(lineWidth: 4)
+                .foregroundColor(.white)
+                .frame(width: bounds.width, height: bounds.height)
+                .position(x: bounds.midX, y: bounds.midY)
+                .animation(.linear)
+        )
     }
 }
 
