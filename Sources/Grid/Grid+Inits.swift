@@ -18,83 +18,92 @@ extension Grid {
 @available(iOS 13.0, OSX 10.15, tvOS 13.0, watchOS 6.0, *)
 extension Grid {
     public init<C0: View, C1: View>(@ViewBuilder content: () -> Content) where Content == TupleView<(C0, C1)> {
-        self.items = [GridItem(view: AnyView(content().value.0), id: AnyHashable(0)),
-                      GridItem(view: AnyView(content().value.1), id: AnyHashable(1))]
+        let builtContent = content()
+        self.items = [GridItem(view: AnyView(builtContent.value.0), id: AnyHashable(0)),
+                      GridItem(view: AnyView(builtContent.value.1), id: AnyHashable(1))]
     }
 
     public init<C0: View, C1: View, C2: View>(@ViewBuilder content: () -> Content) where Content == TupleView<(C0, C1, C2)> {
-        self.items = [GridItem(view: AnyView(content().value.0), id: AnyHashable(0)),
-                      GridItem(view: AnyView(content().value.1), id: AnyHashable(1)),
-                      GridItem(view: AnyView(content().value.2), id: AnyHashable(2))]
+        let builtContent = content()
+        self.items = [GridItem(view: AnyView(builtContent.value.0), id: AnyHashable(0)),
+                      GridItem(view: AnyView(builtContent.value.1), id: AnyHashable(1)),
+                      GridItem(view: AnyView(builtContent.value.2), id: AnyHashable(2))]
     }
 
     public init<C0: View, C1: View, C2: View, C3: View>(@ViewBuilder content: () -> Content) where Content == TupleView<(C0, C1, C2, C3)> {
-        self.items = [GridItem(view: AnyView(content().value.0), id: AnyHashable(0)),
-                      GridItem(view: AnyView(content().value.1), id: AnyHashable(1)),
-                      GridItem(view: AnyView(content().value.2), id: AnyHashable(2)),
-                      GridItem(view: AnyView(content().value.3), id: AnyHashable(3))]
+        let builtContent = content()
+        self.items = [GridItem(view: AnyView(builtContent.value.0), id: AnyHashable(0)),
+                      GridItem(view: AnyView(builtContent.value.1), id: AnyHashable(1)),
+                      GridItem(view: AnyView(builtContent.value.2), id: AnyHashable(2)),
+                      GridItem(view: AnyView(builtContent.value.3), id: AnyHashable(3))]
     }
 
     public init<C0: View, C1: View, C2: View, C3: View, C4: View>(@ViewBuilder content: () -> Content) where Content == TupleView<(C0, C1, C2, C3, C4)> {
-        self.items = [GridItem(view: AnyView(content().value.0), id: AnyHashable(0)),
-                      GridItem(view: AnyView(content().value.1), id: AnyHashable(1)),
-                      GridItem(view: AnyView(content().value.2), id: AnyHashable(2)),
-                      GridItem(view: AnyView(content().value.3), id: AnyHashable(3)),
-                      GridItem(view: AnyView(content().value.4), id: AnyHashable(4))]
+        let builtContent = content()
+        self.items = [GridItem(view: AnyView(builtContent.value.0), id: AnyHashable(0)),
+                      GridItem(view: AnyView(builtContent.value.1), id: AnyHashable(1)),
+                      GridItem(view: AnyView(builtContent.value.2), id: AnyHashable(2)),
+                      GridItem(view: AnyView(builtContent.value.3), id: AnyHashable(3)),
+                      GridItem(view: AnyView(builtContent.value.4), id: AnyHashable(4))]
     }
 
     public init<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View>(@ViewBuilder content: () -> Content) where Content == TupleView<(C0, C1, C2, C3, C4, C5)> {
-        self.items = [GridItem(view: AnyView(content().value.0), id: AnyHashable(0)),
-                      GridItem(view: AnyView(content().value.1), id: AnyHashable(1)),
-                      GridItem(view: AnyView(content().value.2), id: AnyHashable(2)),
-                      GridItem(view: AnyView(content().value.3), id: AnyHashable(3)),
-                      GridItem(view: AnyView(content().value.4), id: AnyHashable(4)),
-                      GridItem(view: AnyView(content().value.5), id: AnyHashable(5))]
+        let builtContent = content()
+        self.items = [GridItem(view: AnyView(builtContent.value.0), id: AnyHashable(0)),
+                      GridItem(view: AnyView(builtContent.value.1), id: AnyHashable(1)),
+                      GridItem(view: AnyView(builtContent.value.2), id: AnyHashable(2)),
+                      GridItem(view: AnyView(builtContent.value.3), id: AnyHashable(3)),
+                      GridItem(view: AnyView(builtContent.value.4), id: AnyHashable(4)),
+                      GridItem(view: AnyView(builtContent.value.5), id: AnyHashable(5))]
     }
 
     public init<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View, C6: View>(@ViewBuilder content: () -> Content) where Content == TupleView<(C0, C1, C2, C3, C4, C5, C6)> {
-        self.items = [GridItem(view: AnyView(content().value.0), id: AnyHashable(0)),
-                      GridItem(view: AnyView(content().value.1), id: AnyHashable(1)),
-                      GridItem(view: AnyView(content().value.2), id: AnyHashable(2)),
-                      GridItem(view: AnyView(content().value.3), id: AnyHashable(3)),
-                      GridItem(view: AnyView(content().value.4), id: AnyHashable(4)),
-                      GridItem(view: AnyView(content().value.5), id: AnyHashable(5)),
-                      GridItem(view: AnyView(content().value.6), id: AnyHashable(6))]
+        let builtContent = content()
+        self.items = [GridItem(view: AnyView(builtContent.value.0), id: AnyHashable(0)),
+                      GridItem(view: AnyView(builtContent.value.1), id: AnyHashable(1)),
+                      GridItem(view: AnyView(builtContent.value.2), id: AnyHashable(2)),
+                      GridItem(view: AnyView(builtContent.value.3), id: AnyHashable(3)),
+                      GridItem(view: AnyView(builtContent.value.4), id: AnyHashable(4)),
+                      GridItem(view: AnyView(builtContent.value.5), id: AnyHashable(5)),
+                      GridItem(view: AnyView(builtContent.value.6), id: AnyHashable(6))]
     }
 
     public init<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View, C6: View, C7: View>(@ViewBuilder content: () -> Content) where Content == TupleView<(C0, C1, C2, C3, C4, C5, C6, C7)> {
-        self.items = [GridItem(view: AnyView(content().value.0), id: AnyHashable(0)),
-                      GridItem(view: AnyView(content().value.1), id: AnyHashable(1)),
-                      GridItem(view: AnyView(content().value.2), id: AnyHashable(2)),
-                      GridItem(view: AnyView(content().value.3), id: AnyHashable(3)),
-                      GridItem(view: AnyView(content().value.4), id: AnyHashable(4)),
-                      GridItem(view: AnyView(content().value.5), id: AnyHashable(5)),
-                      GridItem(view: AnyView(content().value.6), id: AnyHashable(6)),
-                      GridItem(view: AnyView(content().value.7), id: AnyHashable(7))]
+        let builtContent = content()
+        self.items = [GridItem(view: AnyView(builtContent.value.0), id: AnyHashable(0)),
+                      GridItem(view: AnyView(builtContent.value.1), id: AnyHashable(1)),
+                      GridItem(view: AnyView(builtContent.value.2), id: AnyHashable(2)),
+                      GridItem(view: AnyView(builtContent.value.3), id: AnyHashable(3)),
+                      GridItem(view: AnyView(builtContent.value.4), id: AnyHashable(4)),
+                      GridItem(view: AnyView(builtContent.value.5), id: AnyHashable(5)),
+                      GridItem(view: AnyView(builtContent.value.6), id: AnyHashable(6)),
+                      GridItem(view: AnyView(builtContent.value.7), id: AnyHashable(7))]
     }
 
     public init<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View, C6: View, C7: View, C8: View>(@ViewBuilder content: () -> Content) where Content == TupleView<(C0, C1, C2, C3, C4, C5, C6, C7, C8)> {
-        self.items = [GridItem(view: AnyView(content().value.0), id: AnyHashable(0)),
-                      GridItem(view: AnyView(content().value.1), id: AnyHashable(1)),
-                      GridItem(view: AnyView(content().value.2), id: AnyHashable(2)),
-                      GridItem(view: AnyView(content().value.3), id: AnyHashable(3)),
-                      GridItem(view: AnyView(content().value.4), id: AnyHashable(4)),
-                      GridItem(view: AnyView(content().value.5), id: AnyHashable(5)),
-                      GridItem(view: AnyView(content().value.6), id: AnyHashable(6)),
-                      GridItem(view: AnyView(content().value.7), id: AnyHashable(7)),
-                      GridItem(view: AnyView(content().value.8), id: AnyHashable(8))]
+        let builtContent = content()
+        self.items = [GridItem(view: AnyView(builtContent.value.0), id: AnyHashable(0)),
+                      GridItem(view: AnyView(builtContent.value.1), id: AnyHashable(1)),
+                      GridItem(view: AnyView(builtContent.value.2), id: AnyHashable(2)),
+                      GridItem(view: AnyView(builtContent.value.3), id: AnyHashable(3)),
+                      GridItem(view: AnyView(builtContent.value.4), id: AnyHashable(4)),
+                      GridItem(view: AnyView(builtContent.value.5), id: AnyHashable(5)),
+                      GridItem(view: AnyView(builtContent.value.6), id: AnyHashable(6)),
+                      GridItem(view: AnyView(builtContent.value.7), id: AnyHashable(7)),
+                      GridItem(view: AnyView(builtContent.value.8), id: AnyHashable(8))]
     }
 
     public init<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View, C6: View, C7: View, C8: View, C9: View>(@ViewBuilder content: () -> Content) where Content == TupleView<(C0, C1, C2, C3, C4, C5, C6, C7, C8, C9)> {
-        self.items = [GridItem(view: AnyView(content().value.0), id: AnyHashable(0)),
-                      GridItem(view: AnyView(content().value.1), id: AnyHashable(1)),
-                      GridItem(view: AnyView(content().value.2), id: AnyHashable(2)),
-                      GridItem(view: AnyView(content().value.3), id: AnyHashable(3)),
-                      GridItem(view: AnyView(content().value.4), id: AnyHashable(4)),
-                      GridItem(view: AnyView(content().value.5), id: AnyHashable(5)),
-                      GridItem(view: AnyView(content().value.6), id: AnyHashable(6)),
-                      GridItem(view: AnyView(content().value.7), id: AnyHashable(7)),
-                      GridItem(view: AnyView(content().value.8), id: AnyHashable(8)),
-                      GridItem(view: AnyView(content().value.9), id: AnyHashable(9))]
+        let builtContent = content()
+        self.items = [GridItem(view: AnyView(builtContent.value.0), id: AnyHashable(0)),
+                      GridItem(view: AnyView(builtContent.value.1), id: AnyHashable(1)),
+                      GridItem(view: AnyView(builtContent.value.2), id: AnyHashable(2)),
+                      GridItem(view: AnyView(builtContent.value.3), id: AnyHashable(3)),
+                      GridItem(view: AnyView(builtContent.value.4), id: AnyHashable(4)),
+                      GridItem(view: AnyView(builtContent.value.5), id: AnyHashable(5)),
+                      GridItem(view: AnyView(builtContent.value.6), id: AnyHashable(6)),
+                      GridItem(view: AnyView(builtContent.value.7), id: AnyHashable(7)),
+                      GridItem(view: AnyView(builtContent.value.8), id: AnyHashable(8)),
+                      GridItem(view: AnyView(builtContent.value.9), id: AnyHashable(9))]
     }
 }
