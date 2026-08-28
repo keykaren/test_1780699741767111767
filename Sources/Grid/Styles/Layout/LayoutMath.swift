@@ -55,21 +55,50 @@ private func adaptiveTracksCount(minimumLength: CGFloat, spacing: CGFloat, avail
     // The quotient provides a close estimate, but decimal values can round an
     // exact integer down (or a just-below value up). Validate the estimate
     // against the span that will actually be occupied.
-    while count > 1 && adaptiveTracksSpan(
+    while count > 1 && !adaptiveTracksFit(
         count: count,
         minimumLength: minimumLength,
-        spacing: countingSpacing
-    ) > availableLength {
+        spacing: countingSpacing,
+        availableLength: availableLength
+    ) {
         count -= 1
     }
-    while adaptiveTracksSpan(
+    while adaptiveTracksFit(
         count: count + 1,
         minimumLength: minimumLength,
-        spacing: countingSpacing
-    ) <= availableLength {
+        spacing: countingSpacing,
+        availableLength: availableLength
+    ) {
         count += 1
     }
     return count
+}
+
+private func adaptiveTracksFit(
+    count: Int,
+    minimumLength: CGFloat,
+    spacing: CGFloat,
+    availableLength: CGFloat
+) -> Bool {
+    let span = adaptiveTracksSpan(
+        count: count,
+        minimumLength: minimumLength,
+        spacing: spacing
+    )
+    guard span == availableLength,
+          count > 1,
+          availableLength.rounded() == availableLength,
+          minimumLength.rounded() == minimumLength else {
+        return span <= availableLength
+    }
+
+    // Adding a one-ULP spacing increase to a much larger integral track span
+    // can round back to the exact boundary. Compare the spacing to the
+    // remaining capacity directly so that increase does not create a track.
+    let maximumSpacing = (
+        availableLength - CGFloat(count) * minimumLength
+    ) / CGFloat(count - 1)
+    return spacing <= maximumSpacing
 }
 
 private func adaptiveTracksSpan(count: Int, minimumLength: CGFloat, spacing: CGFloat) -> CGFloat {

@@ -85,14 +85,14 @@ final class IndependentSpacingHostingTests: XCTestCase {
 
         let legacyExpectation = prepareFramesExpectation(
             recorder: recorder,
-            frames: frames(axis: axis, crossAxisSpacing: 5, mainAxisSpacing: 5),
+            frames: frames(axis: axis, crossAxisSpacing: 30, mainAxisSpacing: 30),
             description: "updated \(kind) \(axis) uniform spacing"
         )
-        model.setUniformSpacing(5, for: kind)
+        model.setUniformSpacing(30, for: kind)
         wait(for: [legacyExpectation], timeout: 5)
         assertSnapshot(
             recorder.snapshot,
-            frames: frames(axis: axis, crossAxisSpacing: 5, mainAxisSpacing: 5),
+            frames: frames(axis: axis, crossAxisSpacing: 30, mainAxisSpacing: 30),
             file: file,
             line: line
         )
