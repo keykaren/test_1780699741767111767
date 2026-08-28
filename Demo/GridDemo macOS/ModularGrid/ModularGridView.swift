@@ -2,7 +2,7 @@ import SwiftUI
 import Grid
 
 struct ModularGridView: View {
-    @State var selection: Int = 0
+    @State var selection: Item.ID? = nil
     @State var items: [Item] = (0...100).map { Item(number: $0) }
     @State var showSettings: Bool = false
     @State var style = ModularGridStyle(columns: .min(100), rows: .fixed(100))
@@ -16,22 +16,18 @@ struct ModularGridView: View {
                 Grid(items) { item in
                     Card(title: "\(item.number)", color: item.color)
                         .onTapGesture {
-                            self.selection = item.number
+                            self.selection = item.id
                         }
                 }
-                .overlayPreferenceValue(GridItemBoundsPreferencesKey.self) { preferences in
-                    RoundedRectangle(cornerRadius: 16)
-                        .strokeBorder(lineWidth: 4)
-                        .foregroundColor(.white)
-                        .frame(
-                            width: preferences[self.selection].width,
-                            height: preferences[self.selection].height
-                        )
-                        .position(
-                            x: preferences[self.selection].midX,
-                            y: preferences[self.selection].midY
-                        )
-                        .animation(.linear)
+                .overlayPreferenceValue(GridItemBoundsByIDPreferencesKey.self) { preferences in
+                    if let selection = self.selection, let bounds = preferences[id: selection] {
+                        RoundedRectangle(cornerRadius: 16)
+                            .strokeBorder(lineWidth: 4)
+                            .foregroundColor(.white)
+                            .frame(width: bounds.width, height: bounds.height)
+                            .position(x: bounds.midX, y: bounds.midY)
+                            .animation(.linear)
+                    }
                 }
                 .padding(16)
             }

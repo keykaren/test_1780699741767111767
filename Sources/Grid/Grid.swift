@@ -20,6 +20,11 @@ public struct Grid<Content>: View where Content: View {
                         .alignmentGuide(.top, computeValue: { _ in geometry.size.height - (self.preferences[item.id]?.bounds.origin.y ?? 0) })
                         .background(GridPreferencesModifier(id: item.id, bounds: self.preferences[item.id]?.bounds ?? .zero))
                         .anchorPreference(key: GridItemBoundsPreferencesKey.self, value: .bounds) { [geometry[$0]] }
+                        .anchorPreference(key: GridItemBoundsByIDPreferencesKey.self, value: .bounds) {
+                            GridItemBoundsPreferences(items: [
+                                GridItemBoundsPreferences.Item(id: item.id, bounds: geometry[$0])
+                            ])
+                        }
                 }
             }
             .transformPreference(GridPreferencesKey.self) {

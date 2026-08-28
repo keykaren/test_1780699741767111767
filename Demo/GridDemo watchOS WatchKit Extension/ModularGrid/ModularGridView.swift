@@ -2,7 +2,7 @@ import SwiftUI
 import Grid
 
 struct ModularGridView: View {
-    @State var selection: Int = 0
+    @State var selection: Item.ID? = nil
     @State var items: [Item] = (0...100).map { Item(number: $0) }
     
     var body: some View {
@@ -12,22 +12,18 @@ struct ModularGridView: View {
                     .foregroundColor(item.color)
                     .cornerRadius(4)
                     .onTapGesture {
-                        self.selection = item.number
+                        self.selection = item.id
                     }
             }
-            .overlayPreferenceValue(GridItemBoundsPreferencesKey.self) { preferences in
-                RoundedRectangle(cornerRadius: 4)
-                    .strokeBorder(lineWidth: 2)
-                    .foregroundColor(.white)
-                    .frame(
-                        width: preferences[self.selection].width,
-                        height: preferences[self.selection].height
-                    )
-                    .position(
-                        x: preferences[self.selection].midX,
-                        y: preferences[self.selection].midY
-                    )
-                    .animation(.linear)
+            .overlayPreferenceValue(GridItemBoundsByIDPreferencesKey.self) { preferences in
+                if let selection = self.selection, let bounds = preferences[id: selection] {
+                    RoundedRectangle(cornerRadius: 4)
+                        .strokeBorder(lineWidth: 2)
+                        .foregroundColor(.white)
+                        .frame(width: bounds.width, height: bounds.height)
+                        .position(x: bounds.midX, y: bounds.midY)
+                        .animation(.linear)
+                }
             }
         }
         .gridStyle(

@@ -85,11 +85,12 @@ StaggeredGridStyle(tracks: .min(100))
 ```
 
 ## Preferences
-Get item size and position with preferences
+Get an item's size and position by the same ID used by `Grid`:
+
 ```swift
 struct CardsView: View {
-    @State var selection: Int = 0
-    
+    @State private var selection: Int?
+
     var body: some View {
         ScrollView {
             Grid(0..<100) { number in
@@ -99,24 +100,26 @@ struct CardsView: View {
                     }
             }
             .padding()
-            .overlayPreferenceValue(GridItemBoundsPreferencesKey.self) { preferences in
-                RoundedRectangle(cornerRadius: 16)
-                    .strokeBorder(lineWidth: 4)
-                    .foregroundColor(.white)
-                    .frame(
-                        width: preferences[self.selection].width,
-                        height: preferences[self.selection].height
-                    )
-                    .position(
-                        x: preferences[self.selection].midX,
-                        y: preferences[self.selection].midY
-                    )
-                    .animation(.linear)
+            .overlayPreferenceValue(GridItemBoundsByIDPreferencesKey.self) { preferences in
+                if let selection = self.selection, let bounds = preferences[id: selection] {
+                    RoundedRectangle(cornerRadius: 16)
+                        .strokeBorder(lineWidth: 4)
+                        .foregroundColor(.white)
+                        .frame(width: bounds.width, height: bounds.height)
+                        .position(x: bounds.midX, y: bounds.midY)
+                        .animation(.linear)
+                }
             }
         }
     }
 }
 ```
+
+`GridItemBoundsByIDPreferencesKey` initially contains no items while the grid is being measured. Its ID subscript also returns `nil` when an item is missing or removed, so keep selections optional and only draw an overlay when bounds exist. A measured zero-sized item is present and returns `.some(.zero)`.
+
+Every preference contribution is available in `preferences.items`. If the same ID is contributed more than once (for example, by sibling or nested grids), `preferences[id:]` returns `nil` because the result is ambiguous. Use `preferences.allBounds(for:)` to inspect every matching rectangle in contribution order, or attach the preference reader closer to one grid.
+
+The original `GridItemBoundsPreferencesKey` remains available for source compatibility. It returns a positional `[CGRect]` in grid contribution order, but does not preserve item IDs.
 
 ## SDKs
 - iOS 13.1+

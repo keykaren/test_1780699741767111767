@@ -17,3 +17,8 @@ jobs:
       run: swift build -v
     - name: Run tests
       run: swift test -v
+    - name: Compile modified demo targets
+      run: |
+        xcodebuild -project Demo/GridDemo.xcodeproj -target "GridDemo macOS" -configuration Debug -sdk macosx CODE_SIGNING_ALLOWED=NO build
+        xcodebuild -project Demo/GridDemo.xcodeproj -target "GridDemo tvOS" -configuration Debug -sdk appletvsimulator CODE_SIGNING_ALLOWED=NO build
+        xcodebuild -project Demo/GridDemo.xcodeproj -target "GridDemo watchOS WatchKit Extension" -configuration Debug -sdk watchsimulator CODE_SIGNING_ALLOWED=NO build
