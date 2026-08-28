@@ -167,11 +167,8 @@ private struct HostedInitializerIdentityView: View {
                 .frame(width: 100, height: 20)
             Grid(10..<12) { _ in Color.clear }
                 .frame(width: 100, height: 20)
-            Grid {
-                Color.clear
-                EmptyView()
-            }
-            .frame(width: 100, height: 20)
+            makeHostedStaticIdentityGrid()
+                .frame(width: 100, height: 20)
         }
         .onPreferenceChange(GridItemBoundsByIDPreferencesKey.self) {
             self.recorder.receive($0)

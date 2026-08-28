@@ -2,6 +2,7 @@ import Foundation
 import struct SwiftUI.Color
 import struct SwiftUI.EmptyView
 import struct SwiftUI.Text
+import protocol SwiftUI.View
 @testable import Grid
 import XCTest
 
@@ -42,5 +43,13 @@ final class GridInitializerIdentityTests: XCTestCase {
         }
 
         XCTAssertEqual(grid.items.map { $0.id }, [AnyHashable(0), AnyHashable(1), AnyHashable(2)])
+    }
+}
+
+@available(macOS 10.15, *)
+func makeHostedStaticIdentityGrid() -> some View {
+    Grid {
+        Color.clear
+        EmptyView()
     }
 }
