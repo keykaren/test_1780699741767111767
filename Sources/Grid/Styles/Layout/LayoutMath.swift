@@ -17,28 +17,32 @@ func tracksCount(tracks: Tracks, spacing: CGFloat, availableLength: CGFloat) -> 
     case .count(let count):
         return count
     case .fixed(let length):
-         precondition(length > 0, "Minimum track length should be greated than 0")
-        let columnCount = Int(availableLength / length)
-        
-        for columns in (0...columnCount).reversed() {
-            let suggestedItemWidth = itemLength(tracksCount: columns, spacing: spacing, availableLength: availableLength)
-            if (suggestedItemWidth * CGFloat(columns)) + (CGFloat(columns - 1) * spacing) <= availableLength {
-                return columns
-            }
-        }
-        return 1
+        precondition(length > 0, "Minimum track length should be greated than 0")
+        return adaptiveTracksCount(
+            minimumLength: length,
+            spacing: spacing,
+            availableLength: availableLength
+        )
     case .min(let length):
         precondition(length > 0, "Minimum track length should be greated than 0")
-        let columnCount = Int(availableLength / length)
-        
-        for columns in (0...columnCount).reversed() {
-            let suggestedItemWidth = itemLength(tracksCount: columns, spacing: spacing, availableLength: availableLength)
-            if (suggestedItemWidth * CGFloat(columns)) + (CGFloat(columns - 1) * spacing) <= availableLength {
-                return columns
-            }
-        }
+        return adaptiveTracksCount(
+            minimumLength: length,
+            spacing: spacing,
+            availableLength: availableLength
+        )
+    }
+}
+
+private func adaptiveTracksCount(minimumLength: CGFloat, spacing: CGFloat, availableLength: CGFloat) -> Int {
+    guard availableLength >= minimumLength else {
         return 1
     }
+
+    // Negative spacing controls overlap and sizing, but must not create extra
+    // adaptive tracks that would not fit without that overlap.
+    let countingSpacing = max(spacing, 0)
+    let additionalTracks = Int((availableLength - minimumLength) / (minimumLength + countingSpacing))
+    return additionalTracks + 1
 }
 
 func itemLength(tracksCount: Int, spacing: CGFloat, availableLength: CGFloat) -> CGFloat {
