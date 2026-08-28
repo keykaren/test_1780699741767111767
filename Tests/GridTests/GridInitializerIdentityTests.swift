@@ -50,6 +50,6 @@ final class GridInitializerIdentityTests: XCTestCase {
 func makeHostedStaticIdentityGrid() -> some View {
     Grid {
         Color.clear
-        EmptyView()
+        Color.clear
     }
 }
