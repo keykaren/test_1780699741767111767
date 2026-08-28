@@ -51,6 +51,52 @@ ScrollView {
 )
 ```
 
+## Spacing
+
+Both built-in styles can configure spacing across tracks independently from spacing along each track:
+
+```swift
+// Vertical: 24 points between columns and 8 points between rows/items.
+ModularGridStyle(
+    .vertical,
+    columns: .min(100),
+    rows: .fixed(80),
+    crossAxisSpacing: 24,
+    mainAxisSpacing: 8
+)
+
+// Horizontal: 24 points between rows and 8 points between columns/items.
+ModularGridStyle(
+    .horizontal,
+    columns: .fixed(80),
+    rows: .min(100),
+    crossAxisSpacing: 24,
+    mainAxisSpacing: 8
+)
+
+// Vertical masonry: gaps between columns and between items in each column.
+StaggeredGridStyle(
+    .vertical,
+    tracks: .min(100),
+    crossAxisSpacing: 16,
+    mainAxisSpacing: 6
+)
+
+// Horizontal masonry: gaps between rows and between items in each row.
+StaggeredGridStyle(
+    .horizontal,
+    tracks: 4,
+    crossAxisSpacing: 16,
+    mainAxisSpacing: 6
+)
+```
+
+For a vertical grid, `crossAxisSpacing` separates columns and `mainAxisSpacing` separates successive items vertically. For a horizontal grid, they separate rows and successive items horizontally. Changing `axis` reinterprets those values for the new orientation; it does not swap them.
+
+The existing `spacing:` initializer argument is the uniform shorthand and sets both directions. The legacy `spacing` property reads `crossAxisSpacing`; assigning it updates both `crossAxisSpacing` and `mainAxisSpacing`. Assigning either independent property changes only that direction.
+
+All spacing is between tracks or items. It does not add padding around the grid or trailing spacing after the last item. Apply SwiftUI's `padding` modifier separately when exterior space is wanted.
+
 ## Tracks
 Tracks setting allows you to customize grid behaviour to your specific use-case. Both Modular and Staggered grid use tracks value to calculate layout. In Modular layout both columns and rows are tracks.
 

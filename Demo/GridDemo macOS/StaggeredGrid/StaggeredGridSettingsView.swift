@@ -27,8 +27,13 @@ struct StaggeredGridSettingsView: View {
             }
 
             HStack {
-                Text("Spacing (\(Int(self.style.spacing)))")
-                 Slider(value: self.$style.spacing, in: 0...32)
+                Text("Cross-axis spacing (\(Int(self.style.crossAxisSpacing)))")
+                Slider(value: self.$style.crossAxisSpacing, in: 0...32)
+            }
+
+            HStack {
+                Text("Main-axis spacing (\(Int(self.style.mainAxisSpacing)))")
+                Slider(value: self.$style.mainAxisSpacing, in: 0...32)
             }
             
             Button(action: { self.presentationMode.wrappedValue.dismiss() }) {
