@@ -19,6 +19,7 @@ jobs:
       run: swift test -v
     - name: Compile modified demo targets
       run: |
-        xcodebuild -project Demo/GridDemo.xcodeproj -target "GridDemo macOS" -configuration Debug -sdk macosx CODE_SIGNING_ALLOWED=NO build
-        xcodebuild -project Demo/GridDemo.xcodeproj -target "GridDemo tvOS" -configuration Debug -sdk appletvsimulator CODE_SIGNING_ALLOWED=NO build
-        xcodebuild -project Demo/GridDemo.xcodeproj -target "GridDemo watchOS WatchKit Extension" -configuration Debug -sdk watchsimulator CODE_SIGNING_ALLOWED=NO build
+        derived_data="$RUNNER_TEMP/GridDemoDerivedData"
+        xcodebuild -project Demo/GridDemo.xcodeproj -scheme "GridDemo macOS" -configuration Debug -sdk macosx -derivedDataPath "$derived_data" CODE_SIGNING_ALLOWED=NO build
+        xcodebuild -project Demo/GridDemo.xcodeproj -scheme "GridDemo tvOS" -configuration Debug -sdk appletvsimulator -derivedDataPath "$derived_data" CODE_SIGNING_ALLOWED=NO build
+        xcodebuild -project Demo/GridDemo.xcodeproj -scheme "GridDemo watchOS WatchKit Extension" -configuration Debug -sdk watchsimulator -derivedDataPath "$derived_data" CODE_SIGNING_ALLOWED=NO build

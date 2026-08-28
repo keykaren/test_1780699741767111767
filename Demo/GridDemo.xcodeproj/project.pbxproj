@@ -175,7 +175,7 @@
 		FAA2CA4823DEB64900FBDE39 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAA2CA5123DEB66900FBDE39 /* ModularGridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModularGridView.swift; sourceTree = "<group>"; };
 		FAA2CA5323DEB66900FBDE39 /* StaggeredGridView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaggeredGridView.swift; sourceTree = "<group>"; };
-		FAA2CA5823DEB73200FBDE39 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FAA2CA5823DEB73200FBDE39 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = ../README.md; sourceTree = "<group>"; };
 		FAAA2FCC241C42E4007021F7 /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
 		FAC1C78A2430694C00FFA885 /* StaticGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticGridView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */

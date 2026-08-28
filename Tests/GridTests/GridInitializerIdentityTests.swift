@@ -32,7 +32,7 @@ final class GridInitializerIdentityTests: XCTestCase {
     }
 
     func testStaticTupleInitializerUsesPositions() {
-        let grid = Grid {
+        let grid = Grid.Grid {
             EmptyView()
             Color.clear
             Text("third")
