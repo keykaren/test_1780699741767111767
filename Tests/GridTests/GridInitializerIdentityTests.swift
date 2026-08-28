@@ -1,4 +1,7 @@
-import SwiftUI
+import Foundation
+import struct SwiftUI.Color
+import struct SwiftUI.EmptyView
+import struct SwiftUI.Text
 @testable import Grid
 import XCTest
 
@@ -32,7 +35,7 @@ final class GridInitializerIdentityTests: XCTestCase {
     }
 
     func testStaticTupleInitializerUsesPositions() {
-        let grid = Grid.Grid {
+        let grid = Grid {
             EmptyView()
             Color.clear
             Text("third")
