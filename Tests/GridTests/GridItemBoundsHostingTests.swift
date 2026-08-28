@@ -10,12 +10,13 @@ final class GridItemBoundsHostingTests: XCTestCase {
     private static var retainedWindows: [NSWindow] = []
     private let itemSize = CGSize(width: 100, height: 40)
 
-    func testHostedBoundsFollowUUIDIdentityThroughReorderAndRemoval() throws {
+    func testHostedBoundsAndLayoutFollowUUIDIdentityThroughReorderReplacementAndRemoval() throws {
         _ = NSApplication.shared
         let first = HostedItem(id: UUID(uuidString: "00000000-0000-0000-0000-0000000000A1")!)
         let second = HostedItem(id: UUID(uuidString: "00000000-0000-0000-0000-0000000000B2")!)
         let third = HostedItem(id: UUID(uuidString: "00000000-0000-0000-0000-0000000000C3")!)
         let fourth = HostedItem(id: UUID(uuidString: "00000000-0000-0000-0000-0000000000D4")!)
+        let fifth = HostedItem(id: UUID(uuidString: "00000000-0000-0000-0000-0000000000E5")!)
         let model = HostedGridModel(items: [first, second, third, fourth])
         let recorder = HostedBoundsRecorder()
         let rootView = HostedGridView(model: model, recorder: recorder)
@@ -53,6 +54,20 @@ final class GridItemBoundsHostingTests: XCTestCase {
         XCTAssertEqual(reordered.keyed[id: first.id], frame(at: 2))
         XCTAssertNotEqual(initial.keyed[id: first.id], reordered.keyed[id: first.id])
 
+        let replacedItems = [fourth, fifth, first, third]
+        let replacementExpectation = prepareStablePreferencesExpectation(
+            recorder: recorder,
+            items: replacedItems,
+            description: "bounds after ID replacement"
+        )
+        model.items = replacedItems
+        wait(for: [replacementExpectation], timeout: 5)
+        let afterReplacement = try XCTUnwrap(recorder.snapshot)
+        assertParallelAndVisiblePreferences(afterReplacement)
+        XCTAssertNil(afterReplacement.keyed[id: second.id])
+        XCTAssertEqual(afterReplacement.keyed[id: fifth.id], frame(at: 1))
+        XCTAssertEqual(afterReplacement.keyed[id: first.id], frame(at: 2))
+
         let remainingItems = [fourth, first, third]
         let removalExpectation = prepareStablePreferencesExpectation(
             recorder: recorder,
@@ -64,6 +79,7 @@ final class GridItemBoundsHostingTests: XCTestCase {
         let afterRemoval = try XCTUnwrap(recorder.snapshot)
         assertParallelAndVisiblePreferences(afterRemoval)
         XCTAssertNil(afterRemoval.keyed[id: second.id])
+        XCTAssertNil(afterRemoval.keyed[id: fifth.id])
         XCTAssertEqual(afterRemoval.keyed[id: first.id], frame(at: 1))
     }
 
