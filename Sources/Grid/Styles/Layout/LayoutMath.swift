@@ -6,9 +6,17 @@ func itemLength(tracks: Tracks, spacing: CGFloat, availableLength: CGFloat) -> C
         return itemLength(tracksCount: count, spacing: spacing, availableLength: availableLength)
     case .fixed(let length):
         return length
-    case .min:
+    case .min(let minimumLength):
         let suggestedTracksCount = tracksCount(tracks: tracks, spacing: spacing, availableLength: availableLength)
-        return itemLength(tracksCount: suggestedTracksCount, spacing: spacing, availableLength: availableLength)
+        let expandedLength = itemLength(
+            tracksCount: suggestedTracksCount,
+            spacing: spacing,
+            availableLength: availableLength
+        )
+        if availableLength >= minimumLength {
+            return max(expandedLength, minimumLength)
+        }
+        return expandedLength
     }
 }
 
@@ -42,7 +50,30 @@ private func adaptiveTracksCount(minimumLength: CGFloat, spacing: CGFloat, avail
     // adaptive tracks that would not fit without that overlap.
     let countingSpacing = max(spacing, 0)
     let additionalTracks = Int((availableLength - minimumLength) / (minimumLength + countingSpacing))
-    return additionalTracks + 1
+    var count = additionalTracks + 1
+
+    // The quotient provides a close estimate, but decimal values can round an
+    // exact integer down (or a just-below value up). Validate the estimate
+    // against the span that will actually be occupied.
+    while count > 1 && adaptiveTracksSpan(
+        count: count,
+        minimumLength: minimumLength,
+        spacing: countingSpacing
+    ) > availableLength {
+        count -= 1
+    }
+    while adaptiveTracksSpan(
+        count: count + 1,
+        minimumLength: minimumLength,
+        spacing: countingSpacing
+    ) <= availableLength {
+        count += 1
+    }
+    return count
+}
+
+private func adaptiveTracksSpan(count: Int, minimumLength: CGFloat, spacing: CGFloat) -> CGFloat {
+    return CGFloat(count) * minimumLength + CGFloat(count - 1) * spacing
 }
 
 func itemLength(tracksCount: Int, spacing: CGFloat, availableLength: CGFloat) -> CGFloat {

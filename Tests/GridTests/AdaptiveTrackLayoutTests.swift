@@ -32,6 +32,47 @@ final class AdaptiveTrackLayoutTests: XCTestCase {
         }
     }
 
+    func testFractionalExactFitsAndJustBelowBoundariesInEveryStyleAndAxis() {
+        let spacedMinimum: CGFloat = 10.1
+        let spacedSpacing: CGFloat = 20.1
+        let spacedExactFit: CGFloat = 40.3
+        XCTAssertEqual(
+            CGFloat(2) * spacedMinimum + spacedSpacing,
+            spacedExactFit
+        )
+        assertFractionalBoundaryInEveryStyleAndAxis(
+            minimumLength: spacedMinimum,
+            spacing: spacedSpacing,
+            availableLength: spacedExactFit,
+            expectedTracksCount: 2
+        )
+        assertFractionalBoundaryInEveryStyleAndAxis(
+            minimumLength: spacedMinimum,
+            spacing: spacedSpacing,
+            availableLength: spacedExactFit.nextDown,
+            expectedTracksCount: 1
+        )
+
+        let zeroSpacingMinimum: CGFloat = 100.1
+        let zeroSpacingExactFit: CGFloat = 400.4
+        XCTAssertEqual(
+            CGFloat(4) * zeroSpacingMinimum,
+            zeroSpacingExactFit
+        )
+        assertFractionalBoundaryInEveryStyleAndAxis(
+            minimumLength: zeroSpacingMinimum,
+            spacing: 0,
+            availableLength: zeroSpacingExactFit,
+            expectedTracksCount: 4
+        )
+        assertFractionalBoundaryInEveryStyleAndAxis(
+            minimumLength: zeroSpacingMinimum,
+            spacing: 0,
+            availableLength: zeroSpacingExactFit.nextDown,
+            expectedTracksCount: 3
+        )
+    }
+
     func testLargeAndZeroSpacingInEveryStyleAndAxis() {
         // Two minimum-sized tracks leave only 50 points for a 200-point gap.
         assertEveryGridStyle(
@@ -170,6 +211,68 @@ final class AdaptiveTrackLayoutTests: XCTestCase {
                 staggered.transform(preferences: &staggeredPreferences, in: availableSize(axis: axis, crossLength: 210, mainLength: 300))
                 XCTAssertEqual(staggeredPreferences, GridPreferences(items: []))
             }
+        }
+    }
+
+    private func assertFractionalBoundaryInEveryStyleAndAxis(
+        minimumLength: CGFloat,
+        spacing: CGFloat,
+        availableLength: CGFloat,
+        expectedTracksCount: Int,
+        file: StaticString = #file,
+        line: UInt = #line
+    ) {
+        XCTAssertEqual(
+            tracksCount(
+                tracks: .fixed(minimumLength),
+                spacing: spacing,
+                availableLength: availableLength
+            ),
+            expectedTracksCount,
+            file: file,
+            line: line
+        )
+        XCTAssertEqual(
+            tracksCount(
+                tracks: .min(minimumLength),
+                spacing: spacing,
+                availableLength: availableLength
+            ),
+            expectedTracksCount,
+            file: file,
+            line: line
+        )
+
+        assertEveryGridStyle(
+            tracks: .fixed(minimumLength),
+            spacing: spacing,
+            availableLength: availableLength,
+            expectedTracksCount: expectedTracksCount,
+            expectedTrackLength: minimumLength,
+            file: file,
+            line: line
+        )
+
+        let expandedLength = itemLength(
+            tracks: .min(minimumLength),
+            spacing: spacing,
+            availableLength: availableLength
+        )
+        assertEveryGridStyle(
+            tracks: .min(minimumLength),
+            spacing: spacing,
+            availableLength: availableLength,
+            expectedTracksCount: expectedTracksCount,
+            expectedTrackLength: expandedLength,
+            file: file,
+            line: line
+        )
+
+        let expandedSpan = CGFloat(expectedTracksCount) * expandedLength
+            + CGFloat(expectedTracksCount - 1) * spacing
+        XCTAssertEqual(expandedSpan, availableLength, accuracy: 0.000001, file: file, line: line)
+        if availableLength >= minimumLength {
+            XCTAssertGreaterThanOrEqual(expandedLength, minimumLength, file: file, line: line)
         }
     }
 
