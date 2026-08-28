@@ -280,9 +280,7 @@ private struct HostedIndependentSpacingView: View {
 
     private func grid() -> some View {
         Grid(0..<4) { index in
-            Rectangle()
-                .frame(width: 40, height: 40)
-                .background(HostedIndependentVisibleBoundsReporter(id: index))
+            HostedIndependentSpacingItem(axis: self.model.modularStyle.axis, id: index)
         }
         .frame(width: 230, height: 230, alignment: .topLeading)
         .coordinateSpace(name: HostedIndependentVisibleBoundsReporter.coordinateSpaceName)
@@ -295,6 +293,31 @@ private struct HostedIndependentSpacingView: View {
         .onPreferenceChange(HostedIndependentVisibleBoundsPreferencesKey.self) {
             self.recorder.receive(visible: $0)
         }
+    }
+}
+
+@available(macOS 10.15, *)
+private struct HostedIndependentSpacingItem: View {
+    let axis: Axis
+    let id: Int
+
+    var body: some View {
+        content()
+    }
+
+    private func content() -> AnyView {
+        if axis == .vertical {
+            return AnyView(
+                Rectangle()
+                    .frame(height: 40)
+                    .background(HostedIndependentVisibleBoundsReporter(id: id))
+            )
+        }
+        return AnyView(
+            Rectangle()
+                .frame(width: 40)
+                .background(HostedIndependentVisibleBoundsReporter(id: id))
+        )
     }
 }
 
